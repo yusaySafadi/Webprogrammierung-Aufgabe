@@ -17,12 +17,7 @@ let cameraStream = null;
 let recordedBlobs = [];
 let mediaRecorder;
 var options = { mimeType: "video/webm; codecs=vp9" };
-var displayMediaOptions = {
-  video: {
-    cursor: "always",
-  },
-  audio: false,
-};
+
 recordButton.addEventListener(
   "click",
   (e) => {
@@ -46,21 +41,26 @@ async function startCapture() {
     canvas.srcObject = stream;
     mediaRecorder = new MediaRecorder(stream, options);
     mediaRecorder.ondataavailable = handleDataAvailable;
-
+    mediaRecorder.onstart = onRecordingStart;
     mediaRecorder.onstop = stopCapture;
-    mediaRecorder.start();
+    mediaRecorder.start(10);
     stopButton.style.display= "block";
-    startTime = new Date;
+    
   } catch (error) {
     console.error("Error" + error);
   }
 }
 
+function onRecordingStart(){
+  startTime = new Date(); 
+}
+
 function stopCapture() {
   endTime = new Date();
-  timeDiff = endTime - startTime;
+  timeDiff = (endTime - startTime) /1000;
   console.log(timeDiff);
   stopButton.style.display="none";
+  downloadButton.textContent=recordedBlobs.length + " Sekunden";
 
 }
 
@@ -73,7 +73,12 @@ function handleDataAvailable(event) {
 
 
 downloadButton.addEventListener("click", () => {
-  const blob = new Blob(recordedBlobs, { type: "video/webm" });
+  
+  console.log(recordedBlobs.length);
+  let moreBlobs = [...recordedBlobs]
+  
+  console.log(moreBlobs.length);
+  const blob = new Blob(recordedBlobs.concat(moreBlobs), { type: "video/webm" });
   const url = window.URL.createObjectURL(blob);
   player.src = url;
   player.play();

@@ -14,15 +14,12 @@
   <div class="container">
     <div id="canvas">
       <div id="video">
-
-        <video id="display" loop muted autoplay></video>
-        <video id="camera" muted autoplay></video>
+        <video id="display" loop muted autoplay hidden></video>
         <br />
       </div>
-      <canvas id="videoCanvas"> </canvas>
-      <br />
-      <div id="video-information"></div>
-      <div id="chunk-information"></div>
+      <canvas id="videoCanvas" display="hidden"> </canvas>
+      <canvas id="outputCanvas" height="700" width="700"></canvas>
+
     </div>
     <div class="buttons">
       <button id="camera">Camera</button>
@@ -31,10 +28,16 @@
       <button id="download">Download</button>
     </div>
   </div>
+  <p id="currentTime"></p>
+  <br>
+  <p id="endTime"></p>
+  <ol id="videoList">
+
+  </ol>
   <div class="selection">
-    
+
   </div>
 </body>
-<script src="app.js"></script>
+<script type="module" src="main.js"></script>
 
 </html>
