@@ -5,6 +5,9 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
   <title>Document</title>
 </head>
@@ -12,21 +15,26 @@
 <body>
   <h1>WebProgrammierung SoSe22</h1>
   <div class="container">
-    <div id="canvas">
-      <div id="video">
-        <video id="display" loop muted autoplay hidden></video>
-        <br />
-      </div>
-      <canvas id="videoCanvas" display="hidden"> </canvas>
-      <canvas id="outputCanvas" height="700" width="700"></canvas>
+    <video id="display" loop muted autoplay hidden></video>
+    <canvas id="videoCanvas"> </canvas>
+    <canvas id="outputCanvas"></canvas>
+
+    <div id="timeRangeSelection">
+      <!-- 
+<input type="range"  min="1" max="100" id="slider1" class="slider">
+      -->
+    
+      
 
     </div>
-    <div class="buttons">
-      <button id="camera">Camera</button>
-      <button id="record">Record</button>
-      <button id="stop">Stop</button>
-      <button id="download">Download</button>
-    </div>
+    <br>
+  </div>
+  <div class="buttons">
+    <button id="camera">Camera</button>
+    <button id="record">Record</button>
+    <button id="stop">Stop</button>
+    <button id="download">Download</button>
+  </div>
   </div>
   <p id="currentTime"></p>
   <br>

@@ -3,11 +3,11 @@
 import Recorder from "./Recorder.js";
 
 
-let player = document.getElementById("display");
+const player = document.getElementById("display");
 let recordButton = document.querySelector("#record");
 let stopButton = document.querySelector("#stop");
 let cameraButon = document.querySelector("#camera");
-let canvas = document.querySelector("#canvas");
+
 let downloadButton = document.querySelector("button#download");
 let videoList = document.querySelector("#videoList")
 class Main {
@@ -27,7 +27,7 @@ class Main {
     recordButton.addEventListener("click", (e) => {
       navigator.mediaDevices.getDisplayMedia(displayMediaOptions).then((stream) => {
         recordButton.disabled = true;
-        canvas.srcObject = stream;
+
 
         this.recorder = new Recorder(stream, displayMediaOptions);
         this.recorder.start(1);

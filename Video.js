@@ -7,9 +7,11 @@ export default class Video {
     length;
     originalDuration;
     source;
+    processor;
     blobs = [];
 
     constructor(blobs, originalDuration) {
+        this.processor = {}
         this.blobs = blobs;
         this.originalDuration = originalDuration;
         this.length = blobs.length;
@@ -31,8 +33,30 @@ export default class Video {
         videoElement.addEventListener("timeupdate", (e) => {
             startElement.innerHTML = videoElement.currentTime;
         })
+
+
         const outputCanvas = document.querySelector("#outputCanvas");
-        let canvasProcessor = new CanvasProcessor(outputCanvas, videoElement);
+        this.processor = new CanvasProcessor(outputCanvas, videoElement);
+        const timeRangeSelection = document.querySelector("#timeRangeSelection");
+        const timeSlider = document.createElement("input");
+        timeSlider.type = "range";
+        timeSlider.min = 0;
+        timeSlider.max = this.originalDuration /1000;
+        timeSlider.id = "slider1";
+        timeSlider.className = "slider";
+        timeSlider.width = outputCanvas.width;
+        timeSlider.step = 0.1;
+
+        timeRangeSelection.appendChild(timeSlider)
+        timeRangeSelection.style.width = "1280px";
+
+        timeSlider.addEventListener("change", (e) => {
+            console.log(timeSlider.value);
+            videoElement.currentTime = timeSlider.value;
+        })
+
+
+
 
 
     }
