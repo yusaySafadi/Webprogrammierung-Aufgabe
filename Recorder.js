@@ -14,6 +14,7 @@ export default class Recorder {
         this.#mediaRecorder.ondataavailable = this.handleDataAvailable.bind(this);
         this.#mediaRecorder.onstart = this.handleStart.bind(this);
         this.#mediaRecorder.onstop = this.handleStop.bind(this);
+        
 
 
 

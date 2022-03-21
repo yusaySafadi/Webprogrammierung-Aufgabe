@@ -1,31 +1,94 @@
 *{
     font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
 }
 #timeRangeSelection{
     
-    margin: 0 auto;
+    margin: 0;
     position:relative;
     margin-bottom: 2rem;
+    height: 1rem;
+}
+.selectedCut{
+    pointer-events: none;
+    z-index: 1;
+    position: absolute;
+    top: 0.05rem;
+    background-color: rgba(255, 0, 0, 0.63);
+
+    height: 1rem;
+}
+#testDiv{
+    pointer-events: none;
+    z-index: 1;
+    position: absolute;
+    top: 0.05rem;
+    
+    height: 1rem;
+    left: 10%;
+    right: 20%;
+    background-color: rgba(0, 0, 255, 0.986);
+}
+#testDivtwo{
+    pointer-events: none;
+    z-index: 2;
+    position: absolute;
+    top: 0.05rem;
+    
+    height: 1rem;
+    left: 0%;
+    right: 50.9%;
+    background-color: rgba(255, 0, 0, 0.253);
 }
 
+
 .slider{
+    
 margin: 0;
 -webkit-appearance: none;  /* Override default CSS styles */
   appearance: none;
   width: 100%; /* Full-width */
-  height: 25px; 
-
+  /*height: 25px; 
+*/
   transition: opacity .2s;
   position:absolute;
 }
 
-
+#slider1{
+    position: relative;
+}
 #slider1::-webkit-slider-thumb{
+    
     appearance: none;
-    height: 20px;
+    height: 1rem;
     width: 20px;
     background: black;
+    z-index: 100;
     
+}
+
+#slider1::-webkit-slider-runnable-track{
+    background-color: magenta;
+    border-radius: 2rem;
+}
+
+#slider1::-moz-range-track{
+    
+      background-color: rgba(255, 0, 255, 0.24);
+      height: 1rem;
+      border-radius: 3rem;
+}
+
+#slider1::-moz-range-thumb{
+    position:absolute;
+    right: 1%;
+    left: 1%;
+    border: none;
+    /*width: 0.2rem;
+    */height: 4rem;
+    z-index: 5;
+    
+    background: black;
 }
 
 .buttons{

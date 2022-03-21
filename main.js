@@ -7,6 +7,11 @@ const player = document.getElementById("display");
 let recordButton = document.querySelector("#record");
 let stopButton = document.querySelector("#stop");
 let cameraButon = document.querySelector("#camera");
+let cutButton = document.querySelector("#cut");
+let slider = document.querySelector("#slider1");
+let timeRangeselectionDiv = document.querySelector("#timeRangeSelection");
+let isCutSelected = false;
+let firstSlideValue = 0;
 
 let downloadButton = document.querySelector("button#download");
 let videoList = document.querySelector("#videoList")
@@ -52,8 +57,34 @@ class Main {
 
     })
 
+    cutButton.addEventListener("click", (e) =>{
+      if(!isCutSelected){
+        isCutSelected = true;
+        firstSlideValue  = slider.value ;
+    }else{
+      let secondValue = slider.value;
+
+      let firstpercent = (firstSlideValue/ slider.max)*100.00;
+      let secondpercent = 100- ((secondValue /slider.max)*100.00);
+
+
+
+      console.log(firstpercent)
+      console.log(secondpercent)
+      isCutSelected=false;
+
+      let cutSection = document.createElement("div");
+      cutSection.className = "selectedCut";
+      cutSection.style.left = firstSlideValue +"%"
+      cutSection.style.right = secondpercent + "%";
+
+      timeRangeselectionDiv.appendChild(cutSection);
+
+
+
+    }
+  })
+  
   }
-
-
 }
 let main = new Main();
