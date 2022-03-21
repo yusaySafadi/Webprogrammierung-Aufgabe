@@ -15,21 +15,16 @@
 <body>
   <h1>WebProgrammierung SoSe22</h1>
   <div class="container">
-    <video id="display" loop muted autoplay hidden></video>
+    <video id="display"  muted  hidden></video>
     <canvas id="videoCanvas"> </canvas>
     <canvas id="outputCanvas"></canvas>
 
     <div id="timeRangeSelection">
-      <!--
-
-      
-      <div id="testDiv">
-      </div>
-      <div id="testDivtwo">
-      </div>
-      -->
-    <input type="range"  min="1" max="100" step="1" id="slider1" class="slider">
-      
+     
+    <input type="range"  min="1" max="100" step="1" id="slider1" class="slider" >
+    <p id="currentTime"></p>
+    <br>
+    <p id="endTime"></p>
     
       
 
@@ -42,11 +37,10 @@
     <button id="stop">Stop</button>
     <button id="download">Download</button>
     <button id="cut">Cut</button>
+    <button id="finish">Finish</button>
   </div>
   </div>
-  <p id="currentTime"></p>
-  <br>
-  <p id="endTime"></p>
+  
   <ol id="videoList">
 
   </ol>
