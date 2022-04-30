@@ -48,7 +48,7 @@ export default class VideoCutter {
 
     timeRangeselectionDiv.appendChild(cutSection);
 
-    cutButton.innerHTML ="ok?";
+    //cutButton.innerHTML ="ok?";
   }
 
   sortMarks(){

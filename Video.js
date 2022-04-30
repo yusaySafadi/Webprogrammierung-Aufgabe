@@ -5,6 +5,7 @@
 const timeRangeSelection = document.querySelector("#timeRangeSelection");
 const timeSlider = document.getElementById("slider1");
 const player = document.getElementById("display");
+const cameraPlayer = document.getElementById("cameraDisplay");
 let startElement = document.querySelector("#currentTime");
 let endElement = document.querySelector("#endTime");
 export default class Video {
@@ -14,7 +15,8 @@ export default class Video {
   
   blobs = [];
 
-  constructor(blobs, originalDuration) {
+  constructor(blobs, originalDuration,inputMedia) {
+    this.inputMedia = inputMedia;
     this.processor = {};
     this.blobs = blobs;
     this.originalDuration = originalDuration;
@@ -23,7 +25,12 @@ export default class Video {
   showVideo() {
     const blob = new Blob(this.blobs);
     const url = window.URL.createObjectURL(blob);
-    player.src = url;
+    if(this.inputMedia ==="screen"){
+      player.src = url;
+    } else{
+      cameraPlayer.src = url;
+    }
+    
     this.showSlider();
   }
 

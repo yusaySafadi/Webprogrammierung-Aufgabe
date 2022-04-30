@@ -13,40 +13,54 @@
 </head>
 
 <body>
-  <h1>WebProgrammierung SoSe22</h1>
+  <div class="layout">
+
+  
+  <div class="header">
+    <h1>WebProgrammierung SoSe22</h1>
+  </div>
+  
   <div class="container">
     <video id="display"  muted  hidden></video>
-    <canvas id="videoCanvas"> </canvas>
+    <video id="cameraDisplay"  muted  hidden></video>
+    <canvas id="videoCanvas" hidden> </canvas>
+    <canvas id="cameraCanvas" hidden> </canvas>
     <canvas id="outputCanvas"></canvas>
 
     <div id="timeRangeSelection">
      
     <input type="range"  min="1" max="100" step="1" id="slider1" class="slider" >
     <p id="currentTime"></p>
-    <br>
+    
     <p id="endTime"></p>
     
       
 
     </div>
-    <br>
+   
   </div>
   <div class="buttons">
-    <button id="camera">Camera</button>
-    <button id="record">Record</button>
+    <button id="camera" >Camera</button>
+    <button id="record" >Record</button>
+    
+    <button id="download" >Download</button>
+    <button id="cut" >Cut</button>
+    <button id="finish" >Finish</button>
+    
+  </div>
+  <div class="recordOptions">
+    <h3>Recording options</h3>
+    <label for="cameraRecording">Camera?</label>
+    <input type="checkbox" name="cameraRecording" id="cameraOption" >
+    <button id="recorder">Record</button>
     <button id="stop">Stop</button>
-    <button id="download">Download</button>
-    <button id="cut">Cut</button>
-    <button id="finish">Finish</button>
+   
   </div>
   </div>
   
-  <ol id="videoList">
+  
 
-  </ol>
-  <div class="selection">
-
-  </div>
+</div>
 </body>
 <script type="module" src="main.js"></script>
 

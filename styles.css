@@ -1,123 +1,167 @@
-*{
-    font-family: 'Poppins', sans-serif;
-    box-sizing: border-box;
+* {
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
-#timeRangeSelection{
-    
-    margin: 0 auto;
-    position:relative;
-    margin-bottom: 2rem;
-    height: 1rem;
+html {
+  height: 100%;
 }
-.selectedCut{
-    pointer-events: none;
-    z-index: 1;
-    position: absolute;
-    top: 0.05rem;
-    background-color: rgba(255, 0, 0, 0.63);
+body {
+  margin: 0;
+  background-color: rgb(247, 247, 248);
+  height: 100%;
+}
+.layout {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 6% repeat(11, 1fr);
+  height: 100%;
+}
+.header {
+  grid-column: 2/13;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.container {
+  grid-column: 2/13;
+}
+.containerCollapsed{
+  grid-column: 5/13;
+}
+.header h1 {
+  font-weight: 500;
+}
+.buttons {
+  background-color: rgba(255, 255, 255, 0.911);
+  align-self: center;
+  grid-column: 1/1;
+  grid-row: 1/3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  height: 100%;
+}
+button {
+  height: 5rem;
+  width: 5rem;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: white;
+}
+/*#stop {
+  display: none;
+}*/
 
-    height: 1rem;
+#timeRangeSelection {
+  margin: 2rem auto;
+  position: relative;
+  margin-bottom: 2rem;
+  height: 1rem;
 }
-#testDiv{
-    pointer-events: none;
-    z-index: 1;
-    position: absolute;
-    top: 0.05rem;
-    
-    height: 1rem;
-    left: 10%;
-    right: 20%;
-    background-color: rgba(0, 0, 255, 0.986);
+.selectedCut {
+  pointer-events: none;
+  z-index: 1;
+  position: absolute;
+  top: 0.05rem;
+  background-color: rgba(255, 0, 0, 0.63);
+
+  height: 1rem;
 }
-#testDivtwo{
-    pointer-events: none;
-    z-index: 2;
-    position: absolute;
-    top: 0.05rem;
-    
-    height: 1rem;
-    left: 0%;
-    right: 50.9%;
-    background-color: rgba(255, 0, 0, 0.253);
+.selectedMix {
+  pointer-events: none;
+  z-index: 1;
+  position: absolute;
+  top: 0.05rem;
+  background-color: rgba(0, 255, 85, 0.63);
+
+  height: 1rem;
+}
+#testDiv {
+  pointer-events: none;
+  z-index: 1;
+  position: absolute;
+  top: 0.05rem;
+
+  height: 1rem;
+  left: 10%;
+  right: 20%;
+  background-color: rgba(0, 0, 255, 0.986);
+}
+#testDivtwo {
+  pointer-events: none;
+  z-index: 2;
+  position: absolute;
+  top: 0.05rem;
+
+  height: 1rem;
+  left: 0%;
+  right: 50.9%;
+  background-color: rgba(255, 0, 0, 0.253);
 }
 
-
-.slider{
-    
-margin: 0;
--webkit-appearance: none;  /* Override default CSS styles */
+.slider {
+  margin: 0;
+  -webkit-appearance: none; /* Override default CSS styles */
   appearance: none;
   width: 100%; /* Full-width */
   /*height: 25px; 
 */
-  transition: opacity .2s;
-  position:absolute;
+  transition: opacity 0.2s;
+  position: absolute;
 }
 
-#slider1{
-    position: relative;
-    display: none;
+#slider1 {
+  position: relative;
+  display: none;
 }
-#slider1::-webkit-slider-thumb{
-    
-    appearance: none;
-    height: 1rem;
-    width: 20px;
-    background: black;
-    z-index: 100;
-    
+#slider1::-webkit-slider-thumb {
+  appearance: none;
+  height: 1rem;
+  width: 20px;
+  background: black;
+  z-index: 100;
 }
 
-#slider1::-webkit-slider-runnable-track{
-    background-color: magenta;
-    border-radius: 2rem;
+#slider1::-webkit-slider-runnable-track {
+  background-color: magenta;
+  border-radius: 2rem;
 }
 
-#slider1::-moz-range-track{
-    
-      background-color: rgba(255, 0, 255, 0.24);
-      height: 1rem;
-      border-radius: 3rem;
+#slider1::-moz-range-track {
+  background-color: rgba(255, 0, 255, 0.24);
+  height: 1rem;
+  border-radius: 3rem;
 }
 
-#slider1::-moz-range-thumb{
-    position:absolute;
-    right: 1%;
-    left: 1%;
-    border: none;
-    /*width: 0.2rem;
-    */height: 4rem;
-    z-index: 5;
-    
-    background: black;
+#slider1::-moz-range-thumb {
+  position: absolute;
+  right: 1%;
+  left: 1%;
+  border: none;
+  /*width: 0.2rem;
+    */
+  height: 4rem;
+  z-index: 5;
+
+  background: black;
 }
 
-.buttons{
-    display: flex;
-    justify-content: space-between;
-    width: 55%;
-    margin: 0 2rem;
-    
+#outputCanvas {
+  display: block;
+  margin: 0 auto;
+  border: 2px solid black;
 }
-
-
-
-
-#stop{
-    display: none;
+.recordOptions{
+  background-color: tomato;
+  display: none;
+  
 }
-
-
-button{
-    width: 8rem;
-    height: 2.5rem;
-    border: 0.2rem solid black;
-    border-radius: 10%;
-    background-color: white;
-    
-
-}
-
-#outputCanvas{
-    margin:0 auto;
+.activeOptions{
+  display: flex;
+  flex-direction: column;
+  grid-column: 2/4;
+  grid-row: 2;
+  border: 1px solid black;
 }

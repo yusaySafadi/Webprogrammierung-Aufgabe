@@ -3,11 +3,15 @@ import Video from "./Video.js";
 export default class Recorder {
   #mediaRecorder;
   ispaused;
-  constructor(stream, options) {
+  finished;
+  constructor(stream, options,inputMedia) {
+    this.stream =stream;
+    this.inputMedia = inputMedia;
     this.startTime = 0;
     this.endTime = 0;
+    this.finished=false;
     this.recordedBlobs = [];
-    this.#mediaRecorder = new MediaRecorder(stream, options);
+    this.#mediaRecorder = new MediaRecorder(this.stream, options);
     this.#mediaRecorder.ondataavailable = this.handleDataAvailable.bind(this);
     this.#mediaRecorder.onstart = this.handleStart.bind(this);
     this.#mediaRecorder.onstop = this.handleStop.bind(this);
@@ -39,6 +43,13 @@ export default class Recorder {
   }
   handleStop(event) {
     this.endTime = new Date();
+    this.finished = true;
+    
+    console.log("was????")
+    this.stream.getTracks().forEach(track =>{
+      track.stop()})
+    
+  
   }
 
   start(timeslice) {
@@ -63,6 +74,6 @@ export default class Recorder {
   }
   getVideo() {
     let duration = this.endTime - this.startTime;
-    return new Video(this.recordedBlobs, duration);
+    return new Video(this.recordedBlobs, duration, this.inputMedia);
   }
 }
