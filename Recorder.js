@@ -76,4 +76,7 @@ export default class Recorder {
     let duration = this.endTime - this.startTime;
     return new Video(this.recordedBlobs, duration, this.inputMedia);
   }
+  getRecordedBlobs(){
+    return this.recordedBlobs;
+  }
 }

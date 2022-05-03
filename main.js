@@ -113,8 +113,6 @@ stopButton.addEventListener("click", (e) => {
 });
 slider.addEventListener("change", function (e) {
   player.currentTime = slider.value;
-  
-  
 });
 
 finishButton.addEventListener("click", (e) => {
@@ -152,6 +150,17 @@ finishButton.addEventListener("click", (e) => {
   } else {
     canvasRecorder.stop();
     clicked = false;
-    canvasRecorder.download();
+    //canvasRecorder.download();
+    let formData = new FormData();
+    let blobs = new Blob(canvasRecorder.getRecordedBlobs())
+    console.log(blobs)
+    formData.append('blobFile', blobs );
+    
+    fetch("videoServer.php", {
+      method: "POST",
+      body: formData,
+    }).then(() => {
+        alert("streamed video file uploaded");
+      });
   }
 });
