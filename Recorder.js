@@ -38,11 +38,11 @@ export default class Recorder {
     }
   }
   handleStart(event) {
-    this.startTime = new Date();
+    
     this.ispaused = false;
   }
   handleStop(event) {
-    this.endTime = new Date();
+    
     this.finished = true;
     
     console.log("was????")
@@ -54,9 +54,11 @@ export default class Recorder {
 
   start(timeslice) {
     this.#mediaRecorder.start(timeslice);
+    this.startTime = new Date();
   }
   stop() {
     this.#mediaRecorder.stop();
+    this.endTime = new Date();
   }
   download() {
     const blob = new Blob(this.recordedBlobs);
@@ -73,7 +75,9 @@ export default class Recorder {
     }, 100);
   }
   getVideo() {
+    console.log(this.endTime)
     let duration = this.endTime - this.startTime;
+    console.log(duration);
     return new Video(this.recordedBlobs, duration, this.inputMedia);
   }
   getRecordedBlobs(){

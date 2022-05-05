@@ -54,7 +54,7 @@ export default class CanvasProcessor {
     //console.log(this.video.currentTime);
     this.canvasCtx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
     this.canvasCtx.drawImage(this.cameraVideo,0,0,this.canvas.width/2, this.canvas.height/2)
-    console.log(this.scale)
+    //console.log(this.scale)
     if (this.frameMode === "greyScale") {
       let frame = this.canvasCtx.getImageData(0, 0, this.canvas.width, this.canvas.height);
       var l = frame.data.length / 4;

@@ -42,27 +42,37 @@ const displayMediaOptions = {
     cursor: true,
   },
 };
+//DECLARED FUNCTIONS
+function playerCutting() {
+  if (videoCutter.allCutMarks.length > 0) {
+    if (
+      player.currentTime > videoCutter.allCutMarks[0][0] &&
+      player.currentTime < videoCutter.allCutMarks[0][1]
+      
+    ) {
+      player.currentTime = videoCutter.allCutMarks[0][1];
+      videoCutter.allCutMarks.shift();
+    }
+  }
 
+  /*
+    if(this.player.currentTime >= this.markedToCut[0] && this.newRecorder.ispaused === false){
+      this.newRecorder.pause();
+    }
+    if(this.player.currentTime >= this.markedToCut[1] && this.newRecorder.ispaused === true){
+      this.newRecorder.resume();
+    }*/
+}
 //EVENT LISTENERS
 recordButtonOptions.addEventListener("click", (e) => {
   document.querySelector(".recordOptions").classList.toggle("activeOptions");
   document.querySelector(".container").classList.toggle("containerCollapsed");
-  /*navigator.mediaDevices.getDisplayMedia(displayMediaOptions).then((stream) => {
-    //recordButton.disabled = true;
-
-    recorder = new Recorder(stream, displayMediaOptions);
-    recorder.start(1);
-  });
-*/
 });
 recorderButton.addEventListener("click", (e) => {
   if (cameraOption.checked) {
     navigator.mediaDevices
       .getUserMedia(displayMediaOptionsCamera)
       .then((stream) => {
-        //navigator.mediaDevices.getDisplayMedia(displayMediaOptions).then((stream) => {
-        //recordButton.disabled = true;
-
         cameraRecorder = new Recorder(
           stream,
           displayMediaOptionsCamera,
@@ -71,25 +81,14 @@ recorderButton.addEventListener("click", (e) => {
       });
   }
   navigator.mediaDevices.getDisplayMedia(displayMediaOptions).then((stream) => {
-    //recordButton.disabled = true;
     screenRecorder = new Recorder(stream, displayMediaOptions, "screen");
     if (cameraRecorder != null) {
       cameraRecorder.start(1);
     }
     screenRecorder.start(1);
   });
-  //}
 });
 downloadButton.addEventListener("click", (e) => {
-  video = screenRecorder.getVideo();
-  video.showVideo();
-  if (cameraRecorder !== null) {
-    cameraVideo = cameraRecorder.getVideo();
-    cameraVideo.showVideo();
-    cameraPlayer.play();
-  }
-  player.play();
-
   /*videos.push(video);
   let li = document.createElement("li");
   li.innerHTML = "video";
@@ -109,58 +108,52 @@ stopButton.addEventListener("click", (e) => {
   }
   if (screenRecorder !== null) {
     screenRecorder.stop();
+    video = screenRecorder.getVideo();
   }
+  
+  video.showVideo();
+  if (cameraRecorder !== null) {
+    cameraVideo = cameraRecorder.getVideo();
+    cameraVideo.showVideo();
+    cameraPlayer.play();
+  }
+  //player.play();
 });
 slider.addEventListener("change", function (e) {
   player.currentTime = slider.value;
 });
 
 finishButton.addEventListener("click", (e) => {
-  if (!clicked) {
-    clicked = true;
-    let canvasstream = outputCanvas.captureStream();
-    canvasRecorder = new Recorder(canvasstream, displayMediaOptions);
-    player.currentTime = 0;
-    player.play();
-    if (cameraRecorder !== null) {
-      cameraPlayer.currentTime = 0;
-      cameraPlayer.play();
-    }
-
-    canvasRecorder.start(1);
-    player.addEventListener("timeupdate", function () {
-      if (videoCutter.allCutMarks.length > 0) {
-        if (
-          player.currentTime > videoCutter.allCutMarks[0][0] &&
-          player.currentTime < videoCutter.allCutMarks[0][1]
-        ) {
-          player.currentTime = videoCutter.allCutMarks[0][1];
-          videoCutter.allCutMarks.shift();
-        }
-      }
-
-      /*
-        if(this.player.currentTime >= this.markedToCut[0] && this.newRecorder.ispaused === false){
-          this.newRecorder.pause();
-        }
-        if(this.player.currentTime >= this.markedToCut[1] && this.newRecorder.ispaused === true){
-          this.newRecorder.resume();
-        }*/
-    });
-  } else {
-    canvasRecorder.stop();
-    clicked = false;
-    //canvasRecorder.download();
-    let formData = new FormData();
-    let blobs = new Blob(canvasRecorder.getRecordedBlobs())
-    console.log(blobs)
-    formData.append('blobFile', blobs );
-    
-    fetch("videoServer.php", {
-      method: "POST",
-      body: formData,
-    }).then(() => {
-        alert("streamed video file uploaded");
-      });
+  let canvasstream = outputCanvas.captureStream();
+  canvasRecorder = new Recorder(canvasstream, displayMediaOptions);
+  player.currentTime = 0;
+  player.play();
+  if (cameraRecorder !== null) {
+    cameraPlayer.currentTime = 0;
+    cameraPlayer.play();
   }
+
+  canvasRecorder.start(1);
+  player.addEventListener("timeupdate", playerCutting);
+  player.addEventListener(
+    "ended",
+    (e) => {
+      canvasRecorder.stop();
+      canvasRecorder.download();
+      /*
+      let formData = new FormData();
+      let blobs = new Blob(canvasRecorder.getRecordedBlobs());
+      console.log(blobs);
+      formData.append("blobFile", blobs);
+  
+      fetch("videoServer.php", {
+        method: "POST",
+        body: formData,
+      }).then(() => {
+        alert("streamed video file uploaded");
+        
+      });*/
+    },
+    { once: true }
+  );
 });

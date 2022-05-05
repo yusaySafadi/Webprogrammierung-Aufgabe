@@ -1,7 +1,5 @@
 "use strict";
 
-
-
 const timeRangeSelection = document.querySelector("#timeRangeSelection");
 const timeSlider = document.getElementById("slider1");
 const player = document.getElementById("display");
@@ -57,8 +55,8 @@ export default class Video {
     timeSlider.style.display = "block";
     timeRangeSelection.style.width = "1280px";
 
-    startElement.innerHTML = 0;
-    endElement.innerHTML = this.originalDuration;
+    //startElement.innerHTML = 0;
+    //endElement.innerHTML = this.originalDuration;
 
   }
 }
