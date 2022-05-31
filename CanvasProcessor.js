@@ -17,13 +17,13 @@ export default class CanvasProcessor {
       this.onLoadedMetaData.bind(this)
     );
     document
-      .querySelector("#camera")
+      .querySelector("#effects")
       .addEventListener("click", this.onClickEvent.bind(this));
   }
 
   onClickEvent(event) {
     if (this.frameMode === "normal") {
-      this.frameMode = "greyScale";
+      this.frameMode = "blur";
     } else {
       this.frameMode = "normal";
     }
@@ -38,10 +38,6 @@ export default class CanvasProcessor {
   }
 
   timerCallback() {
-    /*
-        if (this.video.paused || this.video.ended) {
-            return;
-        }*/
     this.computeFrame();
     setTimeout(() => {
       this.timerCallback();
@@ -49,13 +45,27 @@ export default class CanvasProcessor {
   }
 
   computeFrame() {
+    switch (this.frameMode) {
+      case "normal":
+        this.canvasCtx.filter ="none";
+        break;
+      case "blur":
+        this.canvasCtx.filter = "blur(5px)";
+        break;
+      case "grayscale":
+      this.canvasCtx.filter = "grayscale(100%)";
+        break;
+      case "invert":
+      this.canvasCtx.filter = "invert(100%)";
+      break;
+      default:
+        break;
+    }
     this.scale = Math.min(this.canvas.width / this.video.videoWidth, this.canvas.height / this.video.videoHeight);
-    //console.log("ffsdf")
-    //console.log(this.video.currentTime);
     this.canvasCtx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-    this.canvasCtx.drawImage(this.cameraVideo,0,0,this.canvas.width/2, this.canvas.height/2)
-    //console.log(this.scale)
-    if (this.frameMode === "greyScale") {
+    this.canvasCtx.drawImage(this.cameraVideo,0,0,this.canvas.width/3, this.canvas.height/3)
+    /*if (this.frameMode === "greyScale") {
+      this.canvasCtx.filter = "none";
       let frame = this.canvasCtx.getImageData(0, 0, this.canvas.width, this.canvas.height);
       var l = frame.data.length / 4;
 
@@ -71,6 +81,6 @@ export default class CanvasProcessor {
         frame.data[i * 4 + 2] = grey;
       }
       this.canvasCtx.putImageData(frame, 0, 0);
-    }
+    }*/
   }
 }

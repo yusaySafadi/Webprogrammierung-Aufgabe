@@ -1,6 +1,6 @@
 <?php
 
-phpinfo();
+
 
 var_dump($_FILES);
 
@@ -9,3 +9,4 @@ echo "File is valid, and was successfully uploaded.\n";
     } else {
         echo "Upload failed";
     }
+    ?>

@@ -50,9 +50,18 @@ button {
   border-radius: 10px;
   background-color: white;
 }
-/*#stop {
+#cut{
   display: none;
-}*/
+}
+#download{
+  display: none;
+}
+#finish{
+  display: none;
+}
+#stop {
+  display: none;
+}
 
 #timeRangeSelection {
   margin: 2rem auto;
@@ -158,10 +167,28 @@ button {
   display: none;
   
 }
+.effectsOptions{
+  background-color: rgb(230, 88, 255);
+  display: none;
+  gap:1rem;
+  align-items: center;
+} .effectsOptions > button{
+  width: 90%;
+  font-size: 1.5rem;
+}
 .activeOptions{
   display: flex;
   flex-direction: column;
   grid-column: 2/4;
   grid-row: 2;
   border: 1px solid black;
+}
+
+@media screen and (max-width:1440px) {
+  .header {
+    grid-column: 2/12;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }

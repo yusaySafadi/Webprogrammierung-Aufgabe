@@ -5,19 +5,13 @@ import CanvasProcessor from "./CanvasProcessor.js";
 import VideoCutter from "./VideoCutter.js";
 
 const outputCanvas = document.querySelector("#outputCanvas");
+const stopButton = document.querySelector("#stop");
+const effectsButton = document.querySelector("#effects");
+const effectsOptionsButton = document.querySelector("#effectsOptionsButton");
+const effectButtons= document.querySelectorAll("#effectsOptionsButton > button");
 
-let stopButton = document.querySelector("#stop");
-let cameraButon = document.querySelector("#camera");
-
-let isCutSelected = false;
-
-let videoList = document.querySelector("#videoList");
-let recorders = [];
-let markedToCut = [];
-//let videos = [];
 let video;
 let cameraVideo;
-let clicked = false;
 const player = document.getElementById("display");
 const cameraPlayer = document.getElementById("cameraDisplay");
 const slider = document.querySelector("#slider1");
@@ -25,51 +19,88 @@ const recordButtonOptions = document.querySelector("#record");
 const recorderButton = document.querySelector("#recorder");
 const downloadButton = document.querySelector("button#download");
 const finishButton = document.querySelector("#finish");
+const cutButton = document.querySelector("#cut");
 
 const cameraOption = document.querySelector("#cameraOption");
+const microphoneOption =document.querySelector("#microphoneOption");
 
-const processor = new CanvasProcessor(outputCanvas, player, cameraPlayer);
+let cameraOptionSelected = false;
+let microphoneOptionSelected= false;
+
+let processor = new CanvasProcessor(outputCanvas, player, cameraPlayer);
 let videoCutter = new VideoCutter();
 let screenRecorder = null;
 let cameraRecorder = null;
-let canvasRecorder;
+let canvasRecorder = null;
 
 const displayMediaOptionsCamera = {
+  audio: true,
   video: { width: { min: 1280 }, height: { min: 720 } },
+  mimeType: "video/webm;codecs=vp8,opus",
 };
 const displayMediaOptions = {
+  audio: true,
   video: {
     cursor: true,
   },
+  
 };
+
 //DECLARED FUNCTIONS
+function reset(){
+  processor = new CanvasProcessor(outputCanvas, player, cameraPlayer);
+  videoCutter = new VideoCutter();
+  screenRecorder = null;
+  cameraRecorder = null;
+  canvasRecorder = null;
+}
 function playerCutting() {
   if (videoCutter.allCutMarks.length > 0) {
     if (
       player.currentTime > videoCutter.allCutMarks[0][0] &&
       player.currentTime < videoCutter.allCutMarks[0][1]
-      
     ) {
       player.currentTime = videoCutter.allCutMarks[0][1];
+      cameraPlayer.currentTime = videoCutter.allCutMarks[0][1];
       videoCutter.allCutMarks.shift();
     }
   }
-
-  /*
-    if(this.player.currentTime >= this.markedToCut[0] && this.newRecorder.ispaused === false){
-      this.newRecorder.pause();
-    }
-    if(this.player.currentTime >= this.markedToCut[1] && this.newRecorder.ispaused === true){
-      this.newRecorder.resume();
-    }*/
 }
+
+function uploadToServer(recordedBlobs){
+
+  let formData = new FormData();
+  let blobs = new Blob(recordedBlobs);
+  formData.append("blobFile", blobs);
+  fetch("videoServer.php", {
+    method: "POST",
+    body: formData,
+  }).then(() => {
+    alert("streamed video file uploaded");
+    
+  });
+}
+
 //EVENT LISTENERS
 recordButtonOptions.addEventListener("click", (e) => {
-  document.querySelector(".recordOptions").classList.toggle("activeOptions");
-  document.querySelector(".container").classList.toggle("containerCollapsed");
+  if( document.querySelector(".recordOptions").classList.contains("activeOptions")){
+    document.querySelector(".recordOptions").classList.remove("activeOptions");
+    document.querySelector(".container").classList.remove("containerCollapsed")
+    document.querySelector(".effectsOptions").classList.remove("activeOptions");
+  }else{
+    document.querySelector(".recordOptions").classList.add("activeOptions");
+    document.querySelector(".container").classList.add("containerCollapsed")
+    document.querySelector(".effectsOptions").classList.remove("activeOptions");
+  }
+  
 });
 recorderButton.addEventListener("click", (e) => {
-  if (cameraOption.checked) {
+  cameraOptionSelected = cameraOption.checked;
+  microphoneOptionSelected = microphoneOption.checked;
+  if (cameraOptionSelected) {
+    if(microphoneOptionSelected){
+      displayMediaOptionsCamera.video = true;
+    }
     navigator.mediaDevices
       .getUserMedia(displayMediaOptionsCamera)
       .then((stream) => {
@@ -86,53 +117,67 @@ recorderButton.addEventListener("click", (e) => {
       cameraRecorder.start(1);
     }
     screenRecorder.start(1);
+    recorderButton.style.display="none";
+    stopButton.style.display ="block";
   });
 });
-downloadButton.addEventListener("click", (e) => {
-  /*videos.push(video);
-  let li = document.createElement("li");
-  li.innerHTML = "video";
-  videoList.append(li);
-  li.addEventListener("click", (e) => {
-    //video.download();
-    video.showVideo();
-    player.play();
-  });*/
-});
+
 player.addEventListener("timeupdate", function () {
   slider.value = player.currentTime;
 });
 stopButton.addEventListener("click", (e) => {
+  recorderButton.style.display = "block";
+  cutButton.style.display ="block";
+  finishButton.style.display="block";
+
+  stopButton.style.display = "none";
+
   if (cameraRecorder !== null) {
     cameraRecorder.stop();
   }
-  if (screenRecorder !== null) {
-    screenRecorder.stop();
-    video = screenRecorder.getVideo();
-  }
-  
+  screenRecorder.stop();
+  video = screenRecorder.getVideo();
+
   video.showVideo();
+
   if (cameraRecorder !== null) {
     cameraVideo = cameraRecorder.getVideo();
     cameraVideo.showVideo();
     cameraPlayer.play();
+    //player.play();
+  }else{
+    //player.play();
   }
-  //player.play();
+  
+  
 });
+
 slider.addEventListener("change", function (e) {
   player.currentTime = slider.value;
+  if(cameraRecorder !==null){
+    cameraPlayer.currentTime = slider.value;
+
+  }
 });
 
 finishButton.addEventListener("click", (e) => {
   let canvasstream = outputCanvas.captureStream();
-  canvasRecorder = new Recorder(canvasstream, displayMediaOptions);
+  let recStream = new MediaStream();
+  recStream.addTrack(canvasstream.getVideoTracks()[0]);
+
   player.currentTime = 0;
   player.play();
-  if (cameraRecorder !== null) {
+  if (cameraRecorder !== null ) {
     cameraPlayer.currentTime = 0;
     cameraPlayer.play();
+    if(microphoneOptionSelected){
+      let camStream = cameraPlayer.mozCaptureStream();
+      recStream.addTrack(camStream.getAudioTracks()[0]);
+    }
+    
   }
 
+  canvasRecorder = new Recorder(recStream, displayMediaOptions);
   canvasRecorder.start(1);
   player.addEventListener("timeupdate", playerCutting);
   player.addEventListener(
@@ -140,20 +185,33 @@ finishButton.addEventListener("click", (e) => {
     (e) => {
       canvasRecorder.stop();
       canvasRecorder.download();
-      /*
-      let formData = new FormData();
-      let blobs = new Blob(canvasRecorder.getRecordedBlobs());
-      console.log(blobs);
-      formData.append("blobFile", blobs);
-  
-      fetch("videoServer.php", {
-        method: "POST",
-        body: formData,
-      }).then(() => {
-        alert("streamed video file uploaded");
-        
-      });*/
+      uploadToServer(canvasRecorder.getRecordedBlobs());
+      reset();
     },
     { once: true }
   );
+  
+});
+
+effectsButton.addEventListener("click", (e) => {
+  if( document.querySelector(".effectsOptions").classList.contains("activeOptions")){
+    document.querySelector(".effectsOptions").classList.remove("activeOptions");
+    document.querySelector(".container").classList.remove("containerCollapsed");
+    document.querySelector(".recordOptions").classList.remove("activeOptions");
+    
+  }else{
+    document.querySelector(".effectsOptions").classList.add("activeOptions");
+    document.querySelector(".container").classList.add("containerCollapsed");
+    document.querySelector(".recordOptions").classList.remove("activeOptions");
+  }
+ 
+
+  
+  
+});
+effectButtons.forEach(element => {
+  element.addEventListener("click",e => {
+    console.log("")
+    processor.frameMode = element.innerHTML.toLowerCase();
+  })
 });

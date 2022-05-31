@@ -4,8 +4,6 @@ const timeRangeSelection = document.querySelector("#timeRangeSelection");
 const timeSlider = document.getElementById("slider1");
 const player = document.getElementById("display");
 const cameraPlayer = document.getElementById("cameraDisplay");
-let startElement = document.querySelector("#currentTime");
-let endElement = document.querySelector("#endTime");
 export default class Video {
   length;
   originalDuration;
@@ -32,20 +30,6 @@ export default class Video {
     this.showSlider();
   }
 
-  download() {
-    const blob = new Blob(this.blobs);
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.style.display = "none";
-    a.href = url;
-    a.download = "test.webm";
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    }, 100);
-  }
 
   showSlider() {
     timeSlider.min = 0;

@@ -21,8 +21,8 @@
   </div>
   
   <div class="container">
-    <video id="display"  muted  hidden></video>
-    <video id="cameraDisplay"  muted  hidden></video>
+    <video id="display"   hidden></video>
+    <video id="cameraDisplay"   hidden></video>
     <canvas id="videoCanvas" hidden> </canvas>
     <canvas id="cameraCanvas" hidden> </canvas>
     <canvas id="outputCanvas"></canvas>
@@ -40,7 +40,7 @@
    
   </div>
   <div class="buttons">
-    <button id="camera" >Camera</button>
+    <button id="effects" >Effects</button>
     <button id="record" >Record</button>
     
     <button id="download" >Download</button>
@@ -51,10 +51,20 @@
   <div class="recordOptions">
     <h3>Recording options</h3>
     <label for="cameraRecording">Camera?</label>
+    
     <input type="checkbox" name="cameraRecording" id="cameraOption" >
+
+    <label for="microphoneRecording">Mic?</label>
+    <input type="checkbox" name="microphoneRecording" id="microphoneOption" >
     <button id="recorder">Record</button>
     <button id="stop">Stop</button>
    
+  </div>
+  <div class="effectsOptions" id="effectsOptionsButton">
+    <button>Normal</button>
+    <button>Blur</button>
+    <button>Grayscale</button>
+    <button>Invert</button>
   </div>
   </div>
   
