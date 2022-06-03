@@ -14,7 +14,7 @@ export default class VideoCutter {
         if (!this.cutSelected) {
           this.cutSelected = true;
           this.markedToCut[0] = slider.value;
-          console.log("nasdwwedqwe");
+          
         } else {
           this.cutSelected = false;
           this.markedToCut[1] = slider.value;
@@ -50,6 +50,6 @@ export default class VideoCutter {
 
   sortMarks() {
     this.allCutMarks.sort((a, b) => a[0] - b[0]);
-    console.log(this.allCutMarks);
+    
   }
 }

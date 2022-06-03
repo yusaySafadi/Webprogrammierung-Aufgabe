@@ -24,6 +24,7 @@ export default class Video {
     if(this.inputMedia ==="screen"){
       player.src = url;
     } else{
+      
       cameraPlayer.src = url;
     }
     

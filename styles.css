@@ -167,6 +167,9 @@ button {
   display: none;
   
 }
+#effects{
+  display: none;
+}
 .effectsOptions{
   background-color: rgb(230, 88, 255);
   display: none;

@@ -5,6 +5,7 @@ export default class Recorder {
   ispaused;
   finished;
   constructor(stream, options,inputMedia) {
+    console.log(options);
     this.stream =stream;
     this.inputMedia = inputMedia;
     this.startTime = 0;
@@ -44,8 +45,6 @@ export default class Recorder {
   handleStop(event) {
     
     this.finished = true;
-    
-    console.log("was????")
     this.stream.getTracks().forEach(track =>{
       track.stop()})
     
@@ -66,7 +65,7 @@ export default class Recorder {
     const a = document.createElement("a");
     a.style.display = "none";
     a.href = url;
-    a.download = "test.webm";
+    a.download = "test.mp4";
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
@@ -75,9 +74,9 @@ export default class Recorder {
     }, 100);
   }
   getVideo() {
-    console.log(this.endTime)
+    //console.log(this.endTime)
     let duration = this.endTime - this.startTime;
-    console.log(duration);
+    //console.log(duration);
     return new Video(this.recordedBlobs, duration, this.inputMedia);
   }
   getRecordedBlobs(){
