@@ -1,3 +1,4 @@
+"use strict";
 export default class CanvasProcessor {
   constructor(canvasElement, videoElement, cameraVideo) {
     this.cameraVideo = cameraVideo;
@@ -9,30 +10,10 @@ export default class CanvasProcessor {
     this.scale = 0;
     /**@type{CanvasRenderingContext2D} */
     this.canvasCtx = this.canvas.getContext("2d");
-
     this.video.addEventListener("play", this.onPlay.bind(this), false);
     this.cameraVideo.addEventListener("play", this.onPlay.bind(this), false);
-    this.video.addEventListener(
-      "loadedmetadata",
-      this.onLoadedMetaData.bind(this)
-    );
-    document
-      .querySelector("#effects")
-      .addEventListener("click", this.onClickEvent.bind(this));
   }
 
-  onClickEvent(event) {
-    if (this.frameMode === "normal") {
-      this.frameMode = "blur";
-    } else {
-      this.frameMode = "normal";
-    }
-  }
-
-  onLoadedMetaData(event) {
-   
-    
-  }
   onPlay(event) {
     this.timerCallback();
   }
@@ -47,23 +28,38 @@ export default class CanvasProcessor {
   computeFrame() {
     switch (this.frameMode) {
       case "normal":
-        this.canvasCtx.filter ="none";
+        this.canvasCtx.filter = "none";
         break;
       case "blur":
         this.canvasCtx.filter = "blur(5px)";
         break;
       case "grayscale":
-      this.canvasCtx.filter = "grayscale(100%)";
+        this.canvasCtx.filter = "grayscale(100%)";
         break;
       case "invert":
-      this.canvasCtx.filter = "invert(100%)";
-      break;
+        this.canvasCtx.filter = "invert(100%)";
+        break;
       default:
         break;
     }
-    this.scale = Math.min(this.canvas.width / this.video.videoWidth, this.canvas.height / this.video.videoHeight);
-    this.canvasCtx.drawImage(this.video, 0, 0, this.canvas.width, this.canvas.height);
-    this.canvasCtx.drawImage(this.cameraVideo,0,0,this.canvas.width/3, this.canvas.height/3)
+    this.scale = Math.min(
+      this.canvas.width / this.video.videoWidth,
+      this.canvas.height / this.video.videoHeight
+    );
+    this.canvasCtx.drawImage(
+      this.video,
+      0,
+      0,
+      this.canvas.width,
+      this.canvas.height
+    );
+    this.canvasCtx.drawImage(
+      this.cameraVideo,
+      0,
+      0,
+      this.canvas.width / 3,
+      this.canvas.height / 3
+    );
     /*if (this.frameMode === "greyScale") {
       this.canvasCtx.filter = "none";
       let frame = this.canvasCtx.getImageData(0, 0, this.canvas.width, this.canvas.height);

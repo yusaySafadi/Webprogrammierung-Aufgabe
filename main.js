@@ -12,7 +12,6 @@ const effectButtons = document.querySelectorAll(
   "#effectsOptionsButton > button"
 );
 
-
 let video;
 let cameraVideo;
 const player = document.getElementById("display");
@@ -45,11 +44,11 @@ const displayMediaOptions = {
   audio: true,
   video: {
     cursor: true,
-  }
+  },
 };
 const finalDisplayMediaOptions = {
-mimeType: "video/webm"
-}
+  mimeType: "video/webm",
+};
 
 //DECLARED FUNCTIONS
 
@@ -107,12 +106,12 @@ recordButtonOptions.addEventListener("click", (e) => {
 recorderButton.addEventListener("click", (e) => {
   cutButton.style.display = "none";
   finishButton.style.display = "none";
-  effectsButton.style.display ="none";
+  effectsButton.style.display = "none";
 
   cameraOptionSelected = cameraOption.checked;
   microphoneOptionSelected = microphoneOption.checked;
   if (cameraOptionSelected) {
-    if(microphoneOptionSelected){
+    if (microphoneOptionSelected) {
       displayMediaOptionsCamera.video = true;
     }
     navigator.mediaDevices
@@ -124,16 +123,20 @@ recorderButton.addEventListener("click", (e) => {
           "camera"
         );
       })
+      .catch((error) => console.log(error));
   }
-  navigator.mediaDevices.getDisplayMedia(displayMediaOptions).then((stream) => {
-    screenRecorder = new Recorder(stream, displayMediaOptions, "screen");
-    if (cameraRecorder != null) {
-      cameraRecorder.start(1);
-    }
-    screenRecorder.start(1);
-    recorderButton.style.display = "none";
-    stopButton.style.display = "block";
-  }).catch(error =>console.log(error));;
+  navigator.mediaDevices
+    .getDisplayMedia(displayMediaOptions)
+    .then((stream) => {
+      screenRecorder = new Recorder(stream, displayMediaOptions, "screen");
+      if (cameraRecorder != null) {
+        cameraRecorder.start(1);
+      }
+      screenRecorder.start(1);
+      recorderButton.style.display = "none";
+      stopButton.style.display = "block";
+    })
+    .catch((error) => console.log(error));
 });
 
 //Sliderposition anpassen, wenn Video abspielt
@@ -145,7 +148,7 @@ stopButton.addEventListener("click", (e) => {
   recorderButton.style.display = "block";
   cutButton.style.display = "block";
   finishButton.style.display = "block";
-  effectsButton.style.display ="block";
+  effectsButton.style.display = "block";
   stopButton.style.display = "none";
 
   if (cameraRecorder !== null) {
@@ -160,9 +163,9 @@ stopButton.addEventListener("click", (e) => {
     cameraVideo = cameraRecorder.getVideo();
     cameraVideo.showVideo();
     cameraPlayer.play();
-    //player.play();
+    player.play();
   } else {
-    //player.play();
+    player.play();
   }
 });
 //Slider die Position vom echten Videoslider ändern lassen
@@ -178,13 +181,12 @@ finishButton.addEventListener("click", (e) => {
   //Canvas wird aufgenommen
   let canvasstream = outputCanvas.captureStream();
   //let camStream = cameraPlayer.mozCaptureStream(); //mozCaptureStream für Firefox
-  
+
   let recStream = new MediaStream();
   recStream.addTrack(canvasstream.getVideoTracks()[0]);
-  
 
   player.currentTime = 0;
-  
+
   if (cameraRecorder !== null) {
     cameraPlayer.currentTime = 0;
 
@@ -198,13 +200,10 @@ finishButton.addEventListener("click", (e) => {
     recStream.addTrack(audioTrack);
     player.play();
     //cameraPlayer.load();
-    cameraPlayer.play()
-      //recStream.addTrack(camStream.getAudioTracks()[0]);
-      
-    
-    
+    cameraPlayer.play();
+    //recStream.addTrack(camStream.getAudioTracks()[0]);
+
     if (microphoneOptionSelected) {
-      
     }
   }
 

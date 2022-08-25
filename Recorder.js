@@ -1,16 +1,17 @@
+"use strict";
 import Video from "./Video.js";
 
 export default class Recorder {
   #mediaRecorder;
   ispaused;
   finished;
-  constructor(stream, options,inputMedia) {
+  constructor(stream, options, inputMedia) {
     console.log(options);
-    this.stream =stream;
+    this.stream = stream;
     this.inputMedia = inputMedia;
     this.startTime = 0;
     this.endTime = 0;
-    this.finished=false;
+    this.finished = false;
     this.recordedBlobs = [];
     this.#mediaRecorder = new MediaRecorder(this.stream, options);
     this.#mediaRecorder.ondataavailable = this.handleDataAvailable.bind(this);
@@ -39,16 +40,13 @@ export default class Recorder {
     }
   }
   handleStart(event) {
-    
     this.ispaused = false;
   }
   handleStop(event) {
-    
     this.finished = true;
-    this.stream.getTracks().forEach(track =>{
-      track.stop()})
-    
-  
+    this.stream.getTracks().forEach((track) => {
+      track.stop();
+    });
   }
 
   start(timeslice) {
@@ -79,7 +77,7 @@ export default class Recorder {
     //console.log(duration);
     return new Video(this.recordedBlobs, duration, this.inputMedia);
   }
-  getRecordedBlobs(){
+  getRecordedBlobs() {
     return this.recordedBlobs;
   }
 }

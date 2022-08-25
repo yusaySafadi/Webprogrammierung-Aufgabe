@@ -8,10 +8,10 @@ export default class Video {
   length;
   originalDuration;
   source;
-  
+
   blobs = [];
 
-  constructor(blobs, originalDuration,inputMedia) {
+  constructor(blobs, originalDuration, inputMedia) {
     this.inputMedia = inputMedia;
     this.processor = {};
     this.blobs = blobs;
@@ -21,16 +21,14 @@ export default class Video {
   showVideo() {
     const blob = new Blob(this.blobs);
     const url = window.URL.createObjectURL(blob);
-    if(this.inputMedia ==="screen"){
+    if (this.inputMedia === "screen") {
       player.src = url;
-    } else{
-      
+    } else {
       cameraPlayer.src = url;
     }
-    
+
     this.showSlider();
   }
-
 
   showSlider() {
     timeSlider.min = 0;
@@ -42,6 +40,5 @@ export default class Video {
 
     //startElement.innerHTML = 0;
     //endElement.innerHTML = this.originalDuration;
-
   }
 }

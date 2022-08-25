@@ -1,3 +1,4 @@
+"use strict";
 const cutButton = document.querySelector("#cut");
 const slider = document.querySelector("#slider1");
 let timeRangeselectionDiv = document.querySelector("#timeRangeSelection");
@@ -14,7 +15,6 @@ export default class VideoCutter {
         if (!this.cutSelected) {
           this.cutSelected = true;
           this.markedToCut[0] = slider.value;
-          
         } else {
           this.cutSelected = false;
           this.markedToCut[1] = slider.value;
@@ -50,6 +50,5 @@ export default class VideoCutter {
 
   sortMarks() {
     this.allCutMarks.sort((a, b) => a[0] - b[0]);
-    
   }
 }
